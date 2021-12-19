@@ -7,7 +7,7 @@
 2. add
    - git add github_update_method.md
 3. commit 
-   - git commit -m 'github 업데이트 방법'
+   - git commit -m "github 업데이트 방법"
 
 4. push
 
