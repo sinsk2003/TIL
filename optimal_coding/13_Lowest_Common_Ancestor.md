@@ -48,6 +48,7 @@ for i in range(m):
 ```
 
 - 개선: 모든 노드에 대하여 깊이와 2^i 번째 부모에 대한 정보를 계산
+  - 시간 복잡도: O(logN)
 
 ```python
 import sys
@@ -104,14 +105,4 @@ m = int(input())
 for i in range(m):
     a, b = map(int, nput().split())
     print(lca(a, b))
-        
-        
 ```
-
-
-
-import sys
-
-input = sys.stdin.readline
-
-sys
