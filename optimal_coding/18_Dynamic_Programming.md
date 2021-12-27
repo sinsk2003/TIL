@@ -114,3 +114,88 @@ for i in range(2, x + 1):
 print(d[x])
 ```
 
+## 효율적인 화폐 구성
+
+- a(i) = 금액 i를 만들 수 있는 최소한의 화폐 개수
+- k = 각 화폐의 단위
+- 점화식: 각 화폐 단위인 k를 하나씩 확인하며
+  - a(i-k)를 만드는 방법이 존재하는 경우, a(i) = min(a(i), a(i-k) + 1)
+  - a(i-k)를 만드는 방법이 존재하지 않는 경우, a(i) = INF
+
+```python
+n, m = map(int, input().split())
+array = []
+for i in range(n):
+  array.append(int(input()))
+  
+d = [10001] * (m + 1)
+
+d[0] = 0 
+for i in range(n):
+  for j in range(aray[i], m + 1):
+    if d[j - array[i]] != 10001:
+      d[j] = min(d[j], d[j - array[i]] + 1)
+    
+if d[m] == 10001:
+  print(-1)
+else:
+  print(d[m])
+```
+
+# 금광
+
+- 왼쪽 아무 행이나 시작해서 오른쪽으로 가면서 얻을 수 있는 금의 최대 크기
+- 왼쪽 위, 왼쪽, 왼쪽 아래에서 오는 경우
+- `array[i][j] `= i행 j열에 존재하는 금의 양
+- `dp[i][j]`= i행 j열까지의 최적의 해 (얻을 수 있는 금의 최댓값)
+- `dp[i][j] = array[i][j] + max(dp[i-1][j-1], dp[i][j-1], dp[i+1][j-1])`
+- 이 때 테이블에 접근할 때마다 리스트의 범위를 벗어나지 않는지 체크해야 함
+- 편의상 초기 데이터를 담는 변수 array를 사용하지 않아도 됨
+  - 바로dp테이블에 초기 데이터를 담아서 적용
+
+```python
+for tc in range(int(input())):
+  n, m =map(int, input().split())
+  array = list(map(int, input().split()))
+  dp = []
+  index = 0
+  for i in range(n):
+    dp.append(array[index:index + m])
+    index += m
+  for j in range(1, m):
+    for i in range(n):
+      if i == 0: left_up = 0
+      else: left_up = dp[i-1][j-1]
+      if i == n - 1: left_down = 0
+      else: left_down = dp[i+1][j-1]
+      left = dp[i][j-1]
+      dp[i][j] = dp[i][j] + max(left_up, left_down, left)
+  result = 0
+  for i in range(n):
+    result = max(result, dp[i][m-1])
+  print(result)
+```
+
+# 병사 배치하기
+
+- 전투력이 높은 병사가 앞쪽에 오도록 내림차순으로 배치
+- 배치 과정에서는 특정한 위치에 있는 병사를 열외하면서도 남아 있는 병사의 수 최대
+- 가장 긴 증가하는 부분 수열(Longest Increasing Subsequence, LIS)와 같은 아이디어
+  - D[i] = array[i] 를 마지막 원소로 가지는 부분 수열의 최대 길이
+  - 모든 0 <= j < i 에 대하여, D[i] = max(D[i], D[j] + 1) if array[j] < array[i]
+
+```python
+n = int(input())
+array = list(map(int, input().split()))
+array.reverse()
+
+dp = [1] * n
+
+for i in range(1, n):
+  for j in range(0, i):
+    if array[j] < array[i]:
+      dp[i] = max(dp[i], dp[j] + 1)
+      
+print(n - max(dp))
+```
+
