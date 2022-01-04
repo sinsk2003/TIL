@@ -1,12 +1,12 @@
 # 복사
 
-## 메모리 복사
+## 단순 복사
 
 - 동일한 주소를 나타내는 경우 같은 변수
 
 ```python
 arr = [10, 20, 30]
-other = arr # 메모리 복사
+other = arr # 단순 복사
 print(other) # [10, 20, 30] 
 print( hex( id(arr))) 	# 0x7f78851855a0
 print( hex( id(other))) # 0x7f78851855a0
